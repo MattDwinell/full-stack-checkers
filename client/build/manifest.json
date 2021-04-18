@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "checkers",
+  "name": "react based checkers",
   "icons": [
     {
       "src": "favicon.ico",
