@@ -12,15 +12,13 @@ import About from './components/About';
 import TopNav from './components/TopNav';
 import Preferences from './components/Preferences';
 import Rules from './components/Rules';
-import Firebase from './auth/firebase';
-import LoginPage from './auth/LoginPage';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import PasswordReset from './auth/PasswordReset';
 import UserProvider from './providers/UserProvider';
 // import {UserContext} from './providers/UserProvider';
 import {UserContext} from './providers/FunctionalUserProvider';
-import {auth} from './auth/firebase';
+import {auth, generateUserDocument} from './auth/firebase';
 
 function App() {
   const [firstPlayersTurn, setFirstPlayersTurn] = useState(true);
@@ -101,11 +99,11 @@ const rotateBoard = ()=>{
 }
 //authentication
 const [user, setUser] = useState(null);
-auth.onAuthStateChanged(userAuth=>{
+auth.onAuthStateChanged(async userAuth=>{
+  const user = await generateUserDocument(userAuth);
   console.log(user);
   setUser(userAuth);
 })
-
   return ( user == null ?
     <UserContext.Provider value={user}>
   <Router>

@@ -15,21 +15,21 @@ const TopNav = () => {
       <Row>
     <Nav defaultActiveKey = '/' className="mr-auto">
       <Col md={3}><Nav.Item>
-      <Nav.Link ><Link className='top-nav-link' exact to='/' >Home</Link> </Nav.Link>           
+     <Link className='top-nav-link' exact to='/' >Home</Link>          
        </Nav.Item>
        </Col> 
        <Col md={3}><Nav.Item>
-      <Nav.Link ><Link className='top-nav-link' exact to='/rules' >Rules</Link> </Nav.Link>           
+     <Link className='top-nav-link' exact to='/rules' >Rules</Link>          
        </Nav.Item>
        </Col>
        <Col md={3}>
        <Nav.Item>
-      <Nav.Link><Link className='top-nav-link' to='/about'>About</Link></Nav.Link>           
+   <Link className='top-nav-link' to='/about'>About</Link>   
        </Nav.Item>
        </Col>
        <Col md={3}>
        <Nav.Item>
-        <Nav.Link><Link className='top-nav-link' to='/preferences'>Preferences</Link></Nav.Link>   
+      <Link className='top-nav-link' to='/preferences'>Preferences</Link>
        </Nav.Item>
        </Col>
        <Col md={3}>
