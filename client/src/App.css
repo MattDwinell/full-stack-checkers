@@ -331,7 +331,7 @@ padding-top: 10px;
   text-align: center;
 }
 /* auth/login */
-.login-page, .open-games{
+.login-page{
   color: white;
   background-color: #202e53;
   width: 60%;
@@ -357,4 +357,60 @@ padding-top: 10px;
 }
 .inner-login-form, .login-form{
   text-align: center;
+}
+.multiplayer-page{
+  color: white;
+  background-color: #202e53;
+  width: 70%;
+  /* margin-left: 20%;
+  margin-top: 10px; */
+  margin:10px  10px 0 15%;
+  padding-bottom: 5px;
+  border: 3px solid #202e53;
+  border-radius: 5px;
+}
+.new-game-form{
+  display: block;
+  padding: 5px;
+}
+.new-game-dashboard{
+  background-color: #162039;
+}
+.new-game-dashboard h6{
+  text-align: center;
+}
+.new-game-form-input{
+ margin-left: 30%;
+}
+.banner-modal{
+  color: black;
+  background-color: #90ee98;
+  opacity: 80%;
+  text-align: center; 
+ box-sizing: border-box;
+ border: 3px solid #90ee98;
+}
+.banner-modal:hover{
+  cursor: pointer;
+  border: 3px solid red;
+}
+.style-button{
+text-align: center;
+display:inline-flex;
+}
+.style-button button{
+  border: 2px solid #90ee98;
+  border-radius: 4px;
+}
+.style-button .red-background{
+  border-color: #FA8072;
+}
+.style-button button:hover{
+  background-color: #90ee98;
+}
+.style-button .red-background:hover{
+  background-color: #FA8072;
+}
+.preview-dashboard{
+  background-color: #162039;
 }

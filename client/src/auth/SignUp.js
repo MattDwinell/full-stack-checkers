@@ -10,7 +10,9 @@ const SignUp = () => {
     event.preventDefault();
     try{
         const {user} = await auth.createUserWithEmailAndPassword(email, password);
-        generateUserDocument(user, {displayName});
+        // generateUserDocument(user, {displayName});
+        const firebaseUser = auth.auth().currentUser;
+        console.log(firebaseUser);
       }
       catch(error){
         setError('Error Signing up with email and password');

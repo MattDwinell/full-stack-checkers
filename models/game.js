@@ -7,6 +7,12 @@ var Game = sequelize.define('games',{
     playerTwo:{
         type: Sequelize.DataTypes.STRING
     },
+    playerOneDisplayName:{
+        type: Sequelize.DataTypes.STRING
+    },
+    playerTwoDisplayName:{
+        type: Sequelize.DataTypes.STRING
+    },
     playerOnesTurn:{
         type: Sequelize.DataTypes.BOOLEAN
     },

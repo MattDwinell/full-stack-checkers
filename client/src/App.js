@@ -16,7 +16,7 @@ import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import PasswordReset from './auth/PasswordReset';
 import UserProvider from './providers/UserProvider';
-import OpenSeeks from './components/OpenSeeks';
+import MultiplayerPage from './components/MultiplayerPage';
 // import {UserContext} from './providers/UserProvider';
 import {UserContext} from './providers/FunctionalUserProvider';
 import {auth, generateUserDocument} from './auth/firebase';
@@ -131,8 +131,8 @@ auth.onAuthStateChanged(async userAuth=>{
       <Preferences changeBoardstyle = {changeBoardStyle} changeShape = {changeShape} style = {{shape: pieceShape, boardStyle: boardstyle}}/>
     )}/>
     <Route path='/rules' component = {Rules}></Route>
-    <Route path = '/openseeks' render = {(props)=>(
-      <OpenSeeks user = {user}/>
+    <Route path = '/multiplayer' render = {(props)=>(
+      <MultiplayerPage user = {user}/>
     )}/>
 
       <Footer />
