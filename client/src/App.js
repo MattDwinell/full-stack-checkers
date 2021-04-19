@@ -16,6 +16,7 @@ import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import PasswordReset from './auth/PasswordReset';
 import UserProvider from './providers/UserProvider';
+import OpenSeeks from './components/OpenSeeks';
 // import {UserContext} from './providers/UserProvider';
 import {UserContext} from './providers/FunctionalUserProvider';
 import {auth, generateUserDocument} from './auth/firebase';
@@ -101,7 +102,7 @@ const rotateBoard = ()=>{
 const [user, setUser] = useState(null);
 auth.onAuthStateChanged(async userAuth=>{
   const user = await generateUserDocument(userAuth);
-  console.log(user);
+  // console.log(user);
   setUser(userAuth);
 })
   return ( user == null ?
@@ -130,6 +131,9 @@ auth.onAuthStateChanged(async userAuth=>{
       <Preferences changeBoardstyle = {changeBoardStyle} changeShape = {changeShape} style = {{shape: pieceShape, boardStyle: boardstyle}}/>
     )}/>
     <Route path='/rules' component = {Rules}></Route>
+    <Route path = '/openseeks' render = {(props)=>(
+      <OpenSeeks user = {user}/>
+    )}/>
 
       <Footer />
     </div>

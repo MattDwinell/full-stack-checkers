@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const users = require('./users');
-const games = require('./games');
+const gameRoutes = require('./games');
+const path = require('path');
 
 // router.get('/', function(req, res) {
 //   res.json({
@@ -9,6 +10,6 @@ const games = require('./games');
 // });
 
 router.use('/users', users);
-router.use('/games', games);
+router.use('/games', gameRoutes);
 
 module.exports = router;

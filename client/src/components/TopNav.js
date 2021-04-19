@@ -34,9 +34,15 @@ const TopNav = () => {
        </Col>
        <Col md={3}>
        <Nav.Item>
+      <Link className='top-nav-link' to='/openseeks'>Open Games</Link>
+       </Nav.Item>
+       </Col>
+       <Col md={3}>
+       <Nav.Item>
         <button onClick = {() => {auth.signOut()}}> Sign out</button>   
        </Nav.Item>
        </Col>
+       
     </Nav>
       </Row>
   </Navbar.Collapse>

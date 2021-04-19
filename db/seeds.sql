@@ -1,0 +1,2 @@
+INSERT INTO games(playerOne, playerTwo, gameOver, playerOnesTurn, board, `history`)
+values('first player','second player', false, true, '{"pid": 101, "name": "name1"}','["abc", 10, null, true, false]');
