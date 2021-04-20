@@ -7,6 +7,7 @@ import GameCreateJoinModal from './GameCreateJoinModal';
 import UserSeeksDashboard from './UserSeeksDashboard';
 import OtherSeeksDashboard from './OtherSeeksDashboard';
 import TogglingButton from './TogglingButton';
+import GamesInProgress from './GamesInProgress';
 const MultiplayerPage = ({user}) => {
     const [allGames, setAllGames] = useState([]);
     const [gameAdded, setGameAdded] = useState(0);
@@ -16,9 +17,12 @@ const MultiplayerPage = ({user}) => {
     const [toggleOtherSeeks, setToggleOtherSeeks] = useState(false);
     const [userOpenGames, setUserOpenGames] = useState([]);
     const [otherOpenGames, setOtherOpenGames] = useState([]);
+    const [bannerMessage, setBannerMessage] = useState('');
+    const [userGamesInProgress, setUserGamesInProgress] = useState([]);
 useEffect(async() => {
    await retrieveGames();
    await retrieveOpenGames();
+   await retrieveCurrentGames();
    
 
 }, [gameAdded])
@@ -26,6 +30,7 @@ const toggleNewGameDisplay = (popup = false)=>{
     // console.log(popup);
     if(popup !== false){
         setToggleModal('show');
+        setBannerMessage('New Game created! Awaiting opponent.');
     }
 setToggleForm(!toggleForm);
 }
@@ -72,23 +77,52 @@ const toggleModalDisplay = (show = false)=>{
     }
 
     const retrieveGames = async()=>{
-        const currentGames = await apiCalls.getGames();
+        const currentGames = await apiCalls.getGames(user.uid);
         console.log(currentGames);
         if(currentGames.data){
         setAllGames(currentGames.data);
         }
     }
+    const retrieveCurrentGames = async()=>{
+        
+        const gamesInProgress = await apiCalls.getGamesInProgress(user.uid);
+        console.log(gamesInProgress.data);
+        if(gamesInProgress.data)setUserGamesInProgress(gamesInProgress.data);
+    }
+    const removeGame = async(id)=>{
+        let res = await apiCalls.deleteGame(id);
+        if(res.status =='200')setGameAdded(gameAdded +1);  
+    }
+    const joinGame = async (game, displayName)=>{
+        if(game.playerOne == null){
+            game.playerOne = user.uid;
+            console.log(user.uid);
+            game.playerOneDisplayName = displayName;
+        }else if(game.playerTwo == null){
+            game.playerTwo = user.uid;
+            game.playerTwoDisplayName = displayName;
+        }
+        let join = await apiCalls.updateGame(game);
+        if(join.status === 200){
+            setGameAdded(gameAdded + 1);
+            setBannerMessage(`Succesfully joined game against ${game.playerOneDisplayName != displayName ? game.playerOneDisplayName : game.playerTwoDisplayName}`);
+           
+            setToggleModal("show"); 
+            return 'success';
+        }
+    }
     return (<>
-    <GameCreateJoinModal hideShow = {toggleModalDisplay} display={toggleModal}/>
+    <GameCreateJoinModal message={bannerMessage} hideShow = {toggleModalDisplay} display={toggleModal}/>
         <div className = 'multiplayer-page'>
-           <TogglingButton toggleBool = {toggleForm} toggleFunc={toggleNewGameDisplay} trueString = 'cancel new game' falseString = 'Start a new game' />
+        &nbsp;&nbsp;<TogglingButton toggleBool = {toggleForm} toggleFunc={toggleNewGameDisplay} trueString = 'cancel new game' falseString = 'Start a new game' />
            &nbsp;&nbsp;&nbsp;
            <NewGameDashboard makeNewGame={makeNewGame} hideShowForm = {toggleNewGameDisplay} display={toggleForm} />
-           <TogglingButton toggleBool = {toggleUserSeeks} toggleFunc={toggleUserSeeksDisplay} trueString = 'Hide your open game requests' falseString = 'Show your open game requests' />
-           <UserSeeksDashboard display={toggleUserSeeks} openSeeks = {userOpenGames}/>
+           <TogglingButton toggleBool = {toggleUserSeeks} toggleFunc={toggleUserSeeksDisplay} trueString = 'Hide your open game requests' falseString = 'Show your open game requests' />&nbsp;&nbsp;&nbsp;
+           <UserSeeksDashboard cancel={removeGame} display={toggleUserSeeks} openSeeks = {userOpenGames}/>
            <TogglingButton toggleBool = {toggleOtherSeeks} toggleFunc={toggleOtherSeeksDisplay} trueString = 'Hide these requests' falseString ='Game requests from others'  />
-           <OtherSeeksDashboard display={toggleOtherSeeks} openSeeks={otherOpenGames}/>
-           <AllMultiplayerGames currentGames = {allGames}/>
+           <OtherSeeksDashboard joinGame={joinGame} display={toggleOtherSeeks} openSeeks={otherOpenGames}/>
+           <GamesInProgress games={userGamesInProgress}/>
+           <button onClick = {retrieveCurrentGames}>get games in progress</button>
         </div>
         </>
     )

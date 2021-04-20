@@ -1,9 +1,16 @@
 import UserSeekPreview from './UserSeekPreview';
-const UserSeeksDashboard = ({display,openSeeks}) => {
+const UserSeeksDashboard = ({display,openSeeks, cancel}) => {
     return display && (
-        <div className = 'preview-dashboard'>
-            {openSeeks.map((item, index)=> <UserSeekPreview game={item} />)}
-        </div>
+        <table className = 'preview-dashboard'>
+            
+                <thead><tr>
+            <th>Player One</th><th>Player Two</th><th>Remove</th>
+            </tr>
+            </thead>
+            <tbody>
+            {openSeeks.map((item, index)=> <UserSeekPreview cancel={cancel} game={item} key={index} />)}
+            </tbody>
+        </table>
     )
 }
 

@@ -1,6 +1,6 @@
 import axios from 'axios';
 export default{
-    getGames: function(){
+    getGames: function(uid){
         return axios({
             url:'/api/games',
             baseURL: 'http://localhost:5000',
@@ -9,9 +9,18 @@ export default{
             method: 'get'
         });
     },
-    getOpenGames: function(userId){
+    getGamesInProgress: function(uid){
         return axios({
-            url: '/api/games/open/' + encodeURI(userId),
+            url:'/api/games/'+ encodeURI(uid),
+            baseURL: 'http://localhost:5000',
+            headers: {'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'},
+            method: 'get'
+        });
+    },
+    getOpenGames: function(uid){
+        return axios({
+            url: '/api/games/open/' + encodeURI(uid),
             baseURL: 'http://localhost:5000',
             headers: {'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'},
@@ -20,12 +29,26 @@ export default{
     },
     createGame: function(gameData){
         return axios({
-            url:'api/games',
+            url:'/api/games',
             baseUrl: 'http://localhost:5000',
             headers:{'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,OPTIONS'},
             method: 'post',
             data: gameData
         });
+    },
+    deleteGame: function(id){
+        return axios({
+            url: '/api/games/' + id,
+            headers:{'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,OPTIONS'},
+            method: 'delete'
+        })
+    },
+    updateGame: function(game){
+        return axios({
+            url:'/api/games/' + game.id,
+            headers:{'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,OPTIONS'},
+            method: 'put',
+            data: game
+        })
     }
-
 }

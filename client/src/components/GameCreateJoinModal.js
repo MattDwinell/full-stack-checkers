@@ -1,7 +1,7 @@
-const GameCreateJoinModal = ({hideShow, display}) => {
+const GameCreateJoinModal = ({hideShow, display, message}) => {
     return display&& (
         <div className = 'banner-modal' onClick={hideShow}>
-          New game created! Waiting for another player to join
+          {message}
         </div>
     )
 }

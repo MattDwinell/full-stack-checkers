@@ -28,10 +28,35 @@ module.exports = function(app) {
             return res.json(result);
         })
     })
+    app.get('/api/games/:uid', (req,res)=>{
+        let uid = decodeURI(req.params.uid);
+        console.log(uid);
+        Games.findAll({
+            where:{
+                gameOver:false,
+                playerOne: {[Op.like] : [ '%%']},
+            [Op.not] : [{playerTwo:null}],
+                [Op.or]:[
+                    {playerOne: uid}, {playerTwo: uid}
+                ]   
+            }
+        })
+        .then((result)=>{
+            return res.json(result);
+        })
+    })
+    app.delete("/api/games/:id", (req, res)=> {
+        Games.destroy({
+          where: {
+            id: req.params.id
+          }
+        })
+          .then(function(dbPost) {
+            res.json(dbPost);
+          });
+      });
     app.post("/api/games", (req, res)=>{
         let gameInfo = req.body;
-        console.log(gameInfo);
-        console.log(gameInfo.playerOne);
         Games.create({
             playerOne: gameInfo.playerOne|| null,
             playerTwo: gameInfo.playerTwo|| null,
@@ -44,7 +69,17 @@ module.exports = function(app) {
         },{freezeTableName: true}).then((results)=>{
             res.json(results);
         })
-
-        // res.json({'success':true});
+    })
+    app.put("/api/games/:id", (req, res)=>{
+        let gameId = req.params.id;
+        if(! gameId) return res.status('500');
+        console.log(req.body);
+        Games.update(req.body,{
+            where:{ 
+                id: gameId
+            }
+        }).then((success)=>{
+           return res.json(success);
+        })
     })
 }

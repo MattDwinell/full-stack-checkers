@@ -1,8 +1,8 @@
-const UserSeekPreview = ({game}) => {
+const UserSeekPreview = ({game, cancel}) => {
     return (
-        <div className='seek-preview'>
-            Player One: {game.playerOneDisplayName || 'Waiting...'} Player Two: {game.playerTwoDisplayName || 'Waiting...'} 
-        </div>
+        <tr className='seek-preview'>
+           <td className = {game.playerOneDisplayName ? 'tan-highlight' : ''}>{game.playerOneDisplayName || 'Waiting...'}</td><td className = {game.playerTwoDisplayName ? 'tan-highlight' : ''}>{game.playerTwoDisplayName || 'Waiting...'}</td><td ><span onClick = {()=>cancel(game.id)} className='delete-request'>X</span></td>
+        </tr>
     )
 }
 
