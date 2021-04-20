@@ -446,3 +446,22 @@ padding: 5px 0 5px 0;
   text-align: center;
   margin: 20px 0 10px 0;
 }
+.preview{
+  padding: 13px 0 13px 0;
+}
+.preview:hover{
+  cursor: pointer;
+  background-color: #4c6271;
+}
+.preview.user-turn{
+color:#d2a56d;
+font-weight: 700;
+}
+.preview.opponent-turn{
+  opacity: 80%;
+  color: slategray;
+}
+.preview-action-btn{
+  margin: 5px 0 5px 0;
+  font-family: 'poppins', 'sans-serif';
+}

@@ -1,10 +1,27 @@
-const GamesInProgress = ({games}) => {
+import CurrentGamePreview from './CurrentGamePreview';
+const GamesInProgress = ({games, user}) => {
     return games.length > 0 &&(
         <>
         <h4 className='progress-header'>Games Currently in Progress</h4>
-        <div className = 'preview-dashboard'>
-            {games.map((item,index)=><div>{item.id}</div>)}
-        </div>
+        <table className = 'preview-dashboard'>
+            <thead>
+                <tr>
+                    <th>
+                        Player One
+                    </th>
+                    <th>
+                        Player Two
+                    </th>
+                    <th>
+                        Turn
+                    </th>
+                    <th>Moves Made</th>
+                    <th>Time of Last Move/ join</th>
+                    <th>Play</th>
+                </tr>
+            </thead>
+            {games.map((item,index)=><CurrentGamePreview user={user} game={item} key={index} />)}
+        </table>
         </>
     )
 }

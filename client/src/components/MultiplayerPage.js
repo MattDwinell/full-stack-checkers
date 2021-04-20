@@ -121,8 +121,7 @@ const toggleModalDisplay = (show = false)=>{
            <UserSeeksDashboard cancel={removeGame} display={toggleUserSeeks} openSeeks = {userOpenGames}/>
            <TogglingButton toggleBool = {toggleOtherSeeks} toggleFunc={toggleOtherSeeksDisplay} trueString = 'Hide these requests' falseString ='Game requests from others'  />
            <OtherSeeksDashboard joinGame={joinGame} display={toggleOtherSeeks} openSeeks={otherOpenGames}/>
-           <GamesInProgress games={userGamesInProgress}/>
-           <button onClick = {retrieveCurrentGames}>get games in progress</button>
+           <GamesInProgress user={user} games={userGamesInProgress}/>
         </div>
         </>
     )
