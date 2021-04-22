@@ -19,6 +19,9 @@ var Game = sequelize.define('games',{
     gameOver:{
         type: Sequelize.DataTypes.BOOLEAN
     },
+    winner:{
+        type: Sequelize.DataTypes.STRING
+    },
     board:  {
         type: Sequelize.DataTypes.JSON
     },

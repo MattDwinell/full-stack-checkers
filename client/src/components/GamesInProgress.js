@@ -20,7 +20,9 @@ const GamesInProgress = ({games, user}) => {
                     <th>Play</th>
                 </tr>
             </thead>
+            <tbody>
             {games.map((item,index)=><CurrentGamePreview user={user} game={item} key={index} />)}
+            </tbody>
         </table>
         </>
     )

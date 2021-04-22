@@ -3,6 +3,11 @@ import {Link} from 'react-router-dom';
 import logo from './../images/checkers_piece_icon.PNG';
 import {auth} from './../auth/firebase';
 const TopNav = () => {
+  const signOutAndRedirect = async()=>{
+    window.location.href = window.location.host;
+    await auth.signOut();
+  }
+
     return (
 <Navbar  bg="light" expand="sm" className = 'style-nav-bar' >
 
@@ -39,7 +44,7 @@ const TopNav = () => {
        </Col>
        <Col md={3}>
        <Nav.Item>
-        <button onClick = {() => {auth.signOut()}}> Sign out</button>   
+       <Link to='/'> <button onClick = {signOutAndRedirect}> Sign out</button>  </Link> 
        </Nav.Item>
        </Col>
        

@@ -9,6 +9,14 @@ export default{
             method: 'get'
         });
     },
+    getGameById: function(gameId){
+        return axios({
+            url:'/api/games/find-one/'+ gameId,
+            headers: {'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'},
+            method: 'get'
+        });
+    },
     getGamesInProgress: function(uid){
         return axios({
             url:'/api/games/'+ encodeURI(uid),

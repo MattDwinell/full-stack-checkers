@@ -20,6 +20,7 @@ import MultiplayerPage from './components/MultiplayerPage';
 // import {UserContext} from './providers/UserProvider';
 import {UserContext} from './providers/FunctionalUserProvider';
 import {auth, generateUserDocument} from './auth/firebase';
+import PlayMultiplayer from './components/PlayMultiplayer';
 
 function App() {
   const [firstPlayersTurn, setFirstPlayersTurn] = useState(true);
@@ -133,6 +134,9 @@ auth.onAuthStateChanged(async userAuth=>{
     <Route path='/rules' component = {Rules}></Route>
     <Route path = '/multiplayer' render = {(props)=>(
       <MultiplayerPage user = {user}/>
+    )}/>
+        <Route path = '/play-multiplayer' render = {(props)=>(
+      <PlayMultiplayer style ={{shape: pieceShape, boardStyle: boardstyle}}/>
     )}/>
 
       <Footer />

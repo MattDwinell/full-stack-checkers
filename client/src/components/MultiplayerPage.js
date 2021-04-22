@@ -19,13 +19,30 @@ const MultiplayerPage = ({user}) => {
     const [otherOpenGames, setOtherOpenGames] = useState([]);
     const [bannerMessage, setBannerMessage] = useState('');
     const [userGamesInProgress, setUserGamesInProgress] = useState([]);
+    const [refreshBuffer, setRefreshBuffer] = useState(true);
+    const [refreshId, setRefreshId] = useState();
 useEffect(async() => {
-   await retrieveGames();
-   await retrieveOpenGames();
-   await retrieveCurrentGames();
-   
+    await pullAllData();
 
 }, [gameAdded])
+useEffect(()=>{
+if(!refreshBuffer || refreshId) return ()=>clearInterval(refreshId);
+let callRefresh = setInterval(gameRefresh, 5000);
+return ()=>clearInterval(callRefresh); 
+},[])
+const pullAllData = async()=>{
+    await retrieveGames();
+    await retrieveOpenGames();
+    await retrieveCurrentGames(); 
+}
+
+const gameRefresh = ()=>{
+    pullAllData();
+    console.log('tick:' + new Date().getSeconds());
+}
+
+
+// const refreshRate = setInterval(gameRefresh, 5000);
 const toggleNewGameDisplay = (popup = false)=>{
     // console.log(popup);
     if(popup !== false){
@@ -78,16 +95,18 @@ const toggleModalDisplay = (show = false)=>{
 
     const retrieveGames = async()=>{
         const currentGames = await apiCalls.getGames(user.uid);
-        console.log(currentGames);
+    //    console.log(currentGames);
         if(currentGames.data){
-        setAllGames(currentGames.data);
+            let currToSort = currentGames.data.sort((a,b)=> a.history.length - b.history.length);
+            // currToSort.reverse()
+        setAllGames(currToSort);
         }
     }
     const retrieveCurrentGames = async()=>{
         
         const gamesInProgress = await apiCalls.getGamesInProgress(user.uid);
-        console.log(gamesInProgress.data);
-        if(gamesInProgress.data)setUserGamesInProgress(gamesInProgress.data);
+   //     console.log(gamesInProgress.data);
+        if(gamesInProgress.data)setUserGamesInProgress(gamesInProgress.data.sort((a,b)=>a.history.length-b.history.length).reverse());
     }
     const removeGame = async(id)=>{
         let res = await apiCalls.deleteGame(id);

@@ -1,4 +1,4 @@
-const TokenPiece = ({id, setBoard, pieceColor, pieceIsKing, styleInfo}) => {
+const TokenPiece = ({id, pieceColor, pieceIsKing, styleInfo}) => {
     const drag = (event)=>{
          event.dataTransfer.setData("text", id);
          event.dataTransfer.setData("color", pieceColor);

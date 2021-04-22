@@ -28,6 +28,18 @@ module.exports = function(app) {
             return res.json(result);
         })
     })
+    app.get('/api/games/find-one/:id', (req, res)=>{
+        let id = decodeURI(req.params.id);
+        if(!id) return res.status(500);
+        Games.findOne({
+            where:{
+                id: id
+            }
+        })
+        .then((result)=>{
+            return res.json(result);
+        })
+    })
     app.get('/api/games/:uid', (req,res)=>{
         let uid = decodeURI(req.params.uid);
         console.log(uid);
@@ -63,6 +75,7 @@ module.exports = function(app) {
             playerOneDisplayName: gameInfo.playerOneDisplayName || null,
             playerTwoDisplayName: gameInfo.playerTwoDisplayName || null,
             gameOver: false,
+            winner: null,
             board: gameInfo.board,
             history: gameInfo.history,
             playerOnesTurn: true

@@ -4,7 +4,7 @@ const cors = require('cors');
 const path = require('path')
 const app = express();
 // require('./database');
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 app.use(cors());
 // API
 // const users = require('/api/users');

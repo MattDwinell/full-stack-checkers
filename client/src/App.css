@@ -450,7 +450,7 @@ padding: 5px 0 5px 0;
   padding: 13px 0 13px 0;
 }
 .preview:hover{
-  cursor: pointer;
+  /* cursor: pointer; */
   background-color: #4c6271;
 }
 .preview.user-turn{
@@ -464,4 +464,7 @@ font-weight: 700;
 .preview-action-btn{
   margin: 5px 0 5px 0;
   font-family: 'poppins', 'sans-serif';
+}
+.temp{
+  color: white
 }

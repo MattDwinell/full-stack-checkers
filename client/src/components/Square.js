@@ -16,7 +16,7 @@ const Square = ({color, number, populated, setBoard, pieceColor, pieceIsKing, st
     
     return (
         <div id={'square' + number} draggable='false' onDragOver={(e)=>allowDrop(e)} onDrop={(event)=>drop(event)} className = 'square' onClick = {()=>{console.log(populated)}} style={{backgroundColor: squareColor, color: textColor }} >
-            {populated ? <Token styleInfo = {styleInfo} pieceIsKing ={pieceIsKing}  pieceColor = {pieceColor} id={number} setBoard = {setBoard}/> : null}
+            {populated ? <Token styleInfo = {styleInfo} pieceIsKing ={pieceIsKing}  pieceColor = {pieceColor} id={number}/> : null}
         </div>
     )
 }
