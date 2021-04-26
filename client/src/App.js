@@ -135,8 +135,8 @@ auth.onAuthStateChanged(async userAuth=>{
     <Route path = '/multiplayer' render = {(props)=>(
       <MultiplayerPage user = {user}/>
     )}/>
-        <Route path = '/play-multiplayer' render = {(props)=>(
-      <PlayMultiplayer style ={{shape: pieceShape, boardStyle: boardstyle}}/>
+        <Route path = '/play-multiplayer/:id' render = {(props)=>(
+      <PlayMultiplayer style ={{shape: pieceShape, boardStyle: boardstyle}} user={user}/>
     )}/>
 
       <Footer />

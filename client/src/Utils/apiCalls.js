@@ -3,7 +3,6 @@ export default{
     getGames: function(uid){
         return axios({
             url:'/api/games',
-            baseURL: 'http://localhost:5000',
             headers: {'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'},
             method: 'get'
@@ -20,7 +19,6 @@ export default{
     getGamesInProgress: function(uid){
         return axios({
             url:'/api/games/'+ encodeURI(uid),
-            baseURL: 'http://localhost:5000',
             headers: {'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'},
             method: 'get'
@@ -29,7 +27,14 @@ export default{
     getOpenGames: function(uid){
         return axios({
             url: '/api/games/open/' + encodeURI(uid),
-            baseURL: 'http://localhost:5000',
+            headers: {'Access-Control-Allow-Origin' : '*',
+            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'},
+            method: 'get'
+        })
+    },
+    getPastGames: function(uid){
+        return axios({
+            url: '/api/games/past/' + encodeURI(uid),
             headers: {'Access-Control-Allow-Origin' : '*',
             'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'},
             method: 'get'
@@ -38,7 +43,6 @@ export default{
     createGame: function(gameData){
         return axios({
             url:'/api/games',
-            baseUrl: 'http://localhost:5000',
             headers:{'Access-Control-Allow-Origin' : '*', 'Access-Control-Allow-Methods':'GET,PUT,POST,DELETE,OPTIONS'},
             method: 'post',
             data: gameData

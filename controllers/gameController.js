@@ -57,6 +57,23 @@ module.exports = function(app) {
             return res.json(result);
         })
     })
+    app.get('/api/games/past/:uid', (req,res)=>{
+        let uid = decodeURI(req.params.uid);
+        console.log(uid);
+        Games.findAll({
+            where:{
+                gameOver:true,
+                playerOne: {[Op.like] : [ '%%']},
+            [Op.not] : [{playerTwo:null}],
+                [Op.or]:[
+                    {playerOne: uid}, {playerTwo: uid}
+                ]   
+            }
+        })
+        .then((result)=>{
+            return res.json(result);
+        })
+    })
     app.delete("/api/games/:id", (req, res)=> {
         Games.destroy({
           where: {

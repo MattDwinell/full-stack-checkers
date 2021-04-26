@@ -11,7 +11,7 @@ const CurrentGamePreview = ({game, user}) => {
             <td>{currentUsersTurn ? 'Your go' : 'their turn'}</td>
             <td>{game.history.length -1}</td>
             <td>{dateString}</td>
-            <td><Link to={{pathname:'/play-multiplayer',locationInfo:{game: game, user: user}}}>
+            <td><Link to={{ params:{id: game.id} ,pathname:`/play-multiplayer/${game.id}`,locationInfo:{game: game, user: user}}}>
                 <button className = 'preview-action-btn'>{currentUsersTurn ? 'play' : 'View Board'}</button></Link></td>
             
         </tr>

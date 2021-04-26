@@ -8,6 +8,7 @@ import UserSeeksDashboard from './UserSeeksDashboard';
 import OtherSeeksDashboard from './OtherSeeksDashboard';
 import TogglingButton from './TogglingButton';
 import GamesInProgress from './GamesInProgress';
+import PreviousGamesDashboard from './PreviousGamesDashboard';
 const MultiplayerPage = ({user}) => {
     const [allGames, setAllGames] = useState([]);
     const [gameAdded, setGameAdded] = useState(0);
@@ -15,12 +16,14 @@ const MultiplayerPage = ({user}) => {
     const [toggleModal, setToggleModal] = useState(false);
     const [toggleUserSeeks, setToggleUserSeeks] = useState(false);
     const [toggleOtherSeeks, setToggleOtherSeeks] = useState(false);
+    const [togglePreviousGames, setTogglePreviousGames] = useState(false);
     const [userOpenGames, setUserOpenGames] = useState([]);
     const [otherOpenGames, setOtherOpenGames] = useState([]);
     const [bannerMessage, setBannerMessage] = useState('');
     const [userGamesInProgress, setUserGamesInProgress] = useState([]);
     const [refreshBuffer, setRefreshBuffer] = useState(true);
     const [refreshId, setRefreshId] = useState();
+    const [usersPastGames, setUsersPastGames] = useState([]);
 useEffect(async() => {
     await pullAllData();
 
@@ -34,6 +37,7 @@ const pullAllData = async()=>{
     await retrieveGames();
     await retrieveOpenGames();
     await retrieveCurrentGames(); 
+    await retrievePreviousGames();
 }
 
 const gameRefresh = ()=>{
@@ -56,6 +60,9 @@ const toggleUserSeeksDisplay =()=>{
 }
 const toggleOtherSeeksDisplay = ()=>{
     setToggleOtherSeeks(!toggleOtherSeeks);
+}
+const togglePreviousGamesDisplay = () =>{
+    setTogglePreviousGames(!togglePreviousGames);
 }
 const toggleModalDisplay = (show = false)=>{
     setToggleModal(show==='show' ? true : !toggleModal);
@@ -102,6 +109,10 @@ const toggleModalDisplay = (show = false)=>{
         setAllGames(currToSort);
         }
     }
+    const retrievePreviousGames = async()=>{
+        const previousGames = await apiCalls.getPastGames(user.uid);
+        if(previousGames.data)setUsersPastGames(previousGames.data.sort((a,b)=>a.updatedAt - b.updatedAt).reverse());
+    }
     const retrieveCurrentGames = async()=>{
         
         const gamesInProgress = await apiCalls.getGamesInProgress(user.uid);
@@ -137,9 +148,10 @@ const toggleModalDisplay = (show = false)=>{
            &nbsp;&nbsp;&nbsp;
            <NewGameDashboard makeNewGame={makeNewGame} hideShowForm = {toggleNewGameDisplay} display={toggleForm} />
            <TogglingButton toggleBool = {toggleUserSeeks} toggleFunc={toggleUserSeeksDisplay} trueString = 'Hide your open game requests' falseString = 'Show your open game requests' />&nbsp;&nbsp;&nbsp;
-           <UserSeeksDashboard cancel={removeGame} display={toggleUserSeeks} openSeeks = {userOpenGames}/>
-           <TogglingButton toggleBool = {toggleOtherSeeks} toggleFunc={toggleOtherSeeksDisplay} trueString = 'Hide these requests' falseString ='Game requests from others'  />
+           <UserSeeksDashboard cancel={removeGame} display={toggleUserSeeks} openSeeks = {userOpenGames}/><TogglingButton toggleBool = {toggleOtherSeeks} toggleFunc={toggleOtherSeeksDisplay} trueString = 'Hide these requests' falseString ='Game requests from others'  />&nbsp;&nbsp;&nbsp;
            <OtherSeeksDashboard joinGame={joinGame} display={toggleOtherSeeks} openSeeks={otherOpenGames}/>
+           <TogglingButton toggleBool={togglePreviousGames} toggleFunc={togglePreviousGamesDisplay} trueString = 'Hide previous games' falseString = 'Show previous games' />
+           <PreviousGamesDashboard display={togglePreviousGames} user={user} games={usersPastGames}/>
            <GamesInProgress user={user} games={userGamesInProgress}/>
         </div>
         </>
