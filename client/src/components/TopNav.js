@@ -19,8 +19,18 @@ const TopNav = () => {
   <Navbar.Collapse id="basic-navbar-nav">
       <Row>
     <Nav defaultActiveKey = '/' className="mr-auto">
+    <Col md={3}>
+       <Nav.Item>
+      <Link className='top-nav-link' to='/multiplayer'>Multiplayer</Link>
+       </Nav.Item>
+       </Col>
       <Col md={3}><Nav.Item>
-     <Link className='top-nav-link' to='/' >Home</Link>          
+     <Link className='top-nav-link' to='/' >Solo Play</Link>          
+       </Nav.Item>
+       </Col>
+       <Col md={3}>
+       <Nav.Item>
+      <Link className='top-nav-link' to='/preferences'>Preferences</Link>
        </Nav.Item>
        </Col> 
        <Col md={3}><Nav.Item>
@@ -30,16 +40,6 @@ const TopNav = () => {
        <Col md={3}>
        <Nav.Item>
    <Link className='top-nav-link' to='/about'>About</Link>   
-       </Nav.Item>
-       </Col>
-       <Col md={3}>
-       <Nav.Item>
-      <Link className='top-nav-link' to='/preferences'>Preferences</Link>
-       </Nav.Item>
-       </Col>
-       <Col md={3}>
-       <Nav.Item>
-      <Link className='top-nav-link' to='/multiplayer'>Multiplayer</Link>
        </Nav.Item>
        </Col>
        <Col md={3}>
