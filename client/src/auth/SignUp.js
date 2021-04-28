@@ -1,26 +1,27 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { signInWithGoogle, auth, generateUserDocument } from "./firebase";
+import { signInWithGoogle, auth } from "./firebase";
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [error, setError] = useState(null);
   const createUserWithEmailAndPasswordHandler = async (event, email, password) => {
-    event.preventDefault();
-    try{
-        const {user} = await auth.createUserWithEmailAndPassword(email, password);
-        // generateUserDocument(user, {displayName});
-        const firebaseUser = auth.auth().currentUser;
-        console.log(firebaseUser);
-      }
-      catch(error){
-        setError('Error Signing up with email and password');
-      }
-  
-      setEmail("");
-      setPassword("");
-      setDisplayName("");
+    try {
+      
+      await auth.createUserWithEmailAndPassword(email, password);
+
+
+      const firebaseUser = auth.auth().currentUser;
+      console.log(firebaseUser);
+    }
+    catch (error) {
+      setError('Error Signing up with email and password');
+    }
+
+    setEmail("");
+    setPassword("");
+    setDisplayName("");
   };
   const onChangeHandler = event => {
     const { name, value } = event.currentTarget;
@@ -56,7 +57,7 @@ const SignUp = () => {
             onChange={event => onChangeHandler(event)}
           />
           <label htmlFor="userEmail" className="block">
-          &nbsp;&nbsp;  Email:&nbsp;
+            &nbsp;&nbsp;  Email:&nbsp;
           </label>
           <input
             type="email"
@@ -67,7 +68,7 @@ const SignUp = () => {
             id="userEmail"
             onChange={event => onChangeHandler(event)}
           />
-          <br/>
+          <br />
           <label htmlFor="userPassword" className="block">
             Password:&nbsp;
           </label>
@@ -80,7 +81,7 @@ const SignUp = () => {
             id="userPassword"
             onChange={event => onChangeHandler(event)}
           />&nbsp;
-          <button
+         <Link to='/'><button
             className="login-button"
             onClick={event => {
               createUserWithEmailAndPasswordHandler(event, email, password);
@@ -88,10 +89,11 @@ const SignUp = () => {
           >
             Sign up
           </button>
+          </Link> 
         </form>
         <p className="text-center">or</p>
         <button
-          className="login-button" onClick = {signInWithGoogle}
+          className="login-button" onClick={signInWithGoogle}
         >
           Sign In with Google
         </button>

@@ -1,5 +1,5 @@
 import axios from 'axios';
-export default{
+const apiCalls ={
     getGames: function(uid){
         return axios({
             url:'/api/games',
@@ -64,3 +64,4 @@ export default{
         })
     }
 }
+export default apiCalls;

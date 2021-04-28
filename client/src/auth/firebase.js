@@ -4,6 +4,7 @@ import "firebase/firestore";
 
 const dotenv = require('dotenv');
 dotenv.config();
+console.log(process.env.FIREBASE_API_KEY);
 const firebaseConfig = {
     apiKey: "AIzaSyBa6KoxDdgymaNzD822dqL4gNGdKw_K0fU",
     authDomain: "full-stack-checkers.firebaseapp.com",

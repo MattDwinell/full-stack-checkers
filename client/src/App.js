@@ -1,6 +1,6 @@
 import './App.css';
 import Board from './components/Board'
-import { useState, useContext } from 'react'
+import { useState } from 'react'
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import CalculateLegalMoves from './Utils/CalculateLegalMoves';
@@ -15,11 +15,10 @@ import Rules from './components/Rules';
 import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import PasswordReset from './auth/PasswordReset';
-import UserProvider from './providers/UserProvider';
 import MultiplayerPage from './components/MultiplayerPage';
 // import {UserContext} from './providers/UserProvider';
 import {UserContext} from './providers/FunctionalUserProvider';
-import {auth, generateUserDocument} from './auth/firebase';
+import {auth} from './auth/firebase';
 import PlayMultiplayer from './components/PlayMultiplayer';
 
 function App() {
@@ -48,7 +47,7 @@ function App() {
       setFirstPlayersTurn(!firstPlayersTurn);
       setAllowedMultiJumps([]);
     }
-    const newBoard = board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump === true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item);
+    const newBoard = board.map((item, index) => index === num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index === origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump === true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item);
     setBoard(newBoard);
 
     setHistory([...history, { board:newBoard, historyIndex: currentHistoryIndex + 1 }]);
@@ -102,8 +101,6 @@ const rotateBoard = ()=>{
 //authentication
 const [user, setUser] = useState(null);
 auth.onAuthStateChanged(async userAuth=>{
-  const user = await generateUserDocument(userAuth);
-  // console.log(user);
   setUser(userAuth);
 })
   return ( user == null ?

@@ -60,7 +60,7 @@ if(resObject.isKing){
         }
 
     }
-    if(resObject.valid && edges.includes(goalSquare) && ((playerOne && goalSquare % 2 === 1 || (!playerOne && goalSquare % 2 === 0)))) resObject.isKing = true;
+    if(resObject.valid && edges.includes(goalSquare) && ((playerOne && goalSquare % 2 === 1) || (!playerOne && goalSquare % 2 === 0))) resObject.isKing = true;
     
     return resObject;
 }
