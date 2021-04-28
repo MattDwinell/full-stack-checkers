@@ -16,8 +16,6 @@ import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import PasswordReset from './auth/PasswordReset';
 import MultiplayerPage from './components/MultiplayerPage';
-// import {UserContext} from './providers/UserProvider';
-import {UserContext} from './providers/FunctionalUserProvider';
 import {auth} from './auth/firebase';
 import PlayMultiplayer from './components/PlayMultiplayer';
 
@@ -104,20 +102,20 @@ auth.onAuthStateChanged(async userAuth=>{
   setUser(userAuth);
 })
   return ( user == null ?
-    <UserContext.Provider value={user}>
+
   <Router>
     <Route path='/' exact component = {SignIn}/>
     <Route path='/signUp' component = {SignUp}/>
     <Route path='/passwordReset' component = {PasswordReset}/>
 
   </Router>
-  </UserContext.Provider >
+
   :
-  <UserContext.Provider value={user}>
+
     <Router>
       <div className="App">
         <TopNav/>
-      <Route path='/' exact render={(props)=>(
+      <Route path='/' exact={true} render={(props)=>(
       <>
            <Board boardState={board} setBoard={attemptMove} styleInfo = {{shape: pieceShape, boardStyle: boardstyle, flipboard: flipBoard}} />
       <Dashboard styleInfo = {{shape: pieceShape, boardStyle: boardstyle, flipboard: flipBoard}}  resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} rotateBoard = {rotateBoard} />
@@ -139,7 +137,7 @@ auth.onAuthStateChanged(async userAuth=>{
       <Footer />
     </div>
     </Router>
-    </UserContext.Provider>
+
   );
 }
 

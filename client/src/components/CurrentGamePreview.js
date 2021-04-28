@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom';
 const CurrentGamePreview = ({game, user}) => {
     let date = new Date(game.updatedAt);
     let dateString = (date.getMonth() +1) + '/' + date.getDate() + '/' + date.getFullYear()+ ',  ' + date.getHours()+ ':' + (date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes()) + ' (EDT)' ;
-    let currentUsersTurn = game.playerOnesTurn && user.uid == game.playerOne || ! game.playerOnesTurn && user.uid == game.playerTwo 
+    let currentUsersTurn = (game.playerOnesTurn && user.uid === game.playerOne) || (!game.playerOnesTurn && user.uid === game.playerTwo); 
 
     return (
         <tr className = {currentUsersTurn? 'preview user-turn' : 'preview opponent-turn'}>

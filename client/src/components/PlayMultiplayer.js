@@ -1,4 +1,4 @@
-import {useLocation, useParams} from 'react-router-dom';
+import { useParams} from 'react-router-dom';
 import {useState, useEffect} from 'react';
 import Board from './Board';
 import CalculateLegalMoves from './../Utils/CalculateLegalMoves';
@@ -26,11 +26,7 @@ useEffect(()=>{
   refreshGameData(id);
   let intervalGameUpdate = setInterval(refreshGameData, 2000);
   return ()=>clearInterval(intervalGameUpdate);
-},[gameInfoFromDatabase])
-const getGameData = async()=>{
-  let res = await apiCalls.getGameById(id);
-  return res.data;
-}
+},[gameInfoFromDatabase]);
   const updateStateFromDatabase = (data)=>{
     setUserIsPlayerOne(user.uid === data.playerOne);
     setFirstPlayersTurn(data.playerOnesTurn);
@@ -79,7 +75,7 @@ const getGameData = async()=>{
         if ((playerOnesPiece === 'black' && ! userIsPlayerOne) || (playerOnesPiece === 'red' && userIsPlayerOne)) return;
         if (board[num].hasPiece === true) return;
         console.log(allowedMultiJumps);
-        if (allowedMultiJumps != undefined && allowedMultiJumps.length && !allowedMultiJumps.includes(parseInt(num, 10))) return;
+        if (allowedMultiJumps !== undefined && allowedMultiJumps.length && !allowedMultiJumps.includes(parseInt(num, 10))) return;
         if (currentHistoryIndex !== history.length - 1 && history.length > 0) return;
         let res = CalculateLegalMoves(parseInt(num, 10), parseInt(origin, 10), board, firstPlayersTurn);
         if (!res.valid) return;
@@ -89,7 +85,7 @@ const getGameData = async()=>{
           setFirstPlayersTurn(!firstPlayersTurn);
           setAllowedMultiJumps([]);
         }
-        const newBoard = board.map((item, index) => index == num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index == origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump === true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item);
+        const newBoard = board.map((item, index) => index === num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index === origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump === true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item);
         //hook into db before updating state, that way client-side board only updates after database updates.
         setBoard(newBoard);
     
@@ -128,7 +124,7 @@ const getGameData = async()=>{
         console.log('resign')
         if(!id) return;
         if(gameOver.gameOver) return;
-        let resignGame =  await apiCalls.updateGame({...gameInfoFromDatabase, gameOver: true, winner: user.uid == gameInfoFromDatabase.playerOne ? gameInfoFromDatabase.playerTwo : gameInfoFromDatabase.playerOne });
+        let resignGame =  await apiCalls.updateGame({...gameInfoFromDatabase, gameOver: true, winner: user.uid === gameInfoFromDatabase.playerOne ? gameInfoFromDatabase.playerTwo : gameInfoFromDatabase.playerOne });
         console.log(resignGame);
         if(resignGame.status === 200) setGameOver({gameOver: true, winner: user.uid ===gameInfoFromDatabase.playerOne ? gameInfoFromDatabase.playerTwo : gameInfoFromDatabase.playerOne,  winnerDisplayName : gameInfoFromDatabase.playerOne === user.uid ? gameInfoFromDatabase.playerTwoDisplayName : gameInfoFromDatabase.playerOneDisplayName })
 

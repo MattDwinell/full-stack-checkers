@@ -9,7 +9,6 @@ import TogglingButton from './TogglingButton';
 import GamesInProgress from './GamesInProgress';
 import PreviousGamesDashboard from './PreviousGamesDashboard';
 const MultiplayerPage = ({user}) => {
-    const [allGames, setAllGames] = useState([]);
     const [gameAdded, setGameAdded] = useState(0);
     const [toggleForm, setToggleForm] = useState(false);
     const [toggleModal, setToggleModal] = useState(false);
@@ -33,7 +32,6 @@ let callRefresh = setInterval(gameRefresh, 5000);
 return ()=>clearInterval(callRefresh); 
 },[])
 const pullAllData = async()=>{
-    await retrieveGames();
     await retrieveOpenGames();
     await retrieveCurrentGames(); 
     await retrievePreviousGames();
@@ -45,9 +43,7 @@ const gameRefresh = ()=>{
 }
 
 
-// const refreshRate = setInterval(gameRefresh, 5000);
 const toggleNewGameDisplay = (popup = false)=>{
-    // console.log(popup);
     if(popup !== false){
         setToggleModal('show');
         setBannerMessage('New Game created! Awaiting opponent.');
@@ -73,10 +69,10 @@ const toggleModalDisplay = (show = false)=>{
              gameOver: false,
              playerOnesTurn: true
          }        
-          if(playerChoice == 'p1'){
+          if(playerChoice === 'p1'){
              newGame.playerOne = user.uid;
              newGame.playerOneDisplayName = alias;
-         }else if(playerChoice == 'p2'){
+         }else if(playerChoice === 'p2'){
              newGame.playerTwo = user.uid;
              newGame.playerTwoDisplayName = alias;
          }else{
@@ -93,19 +89,9 @@ const toggleModalDisplay = (show = false)=>{
         if(currentOpenGames.data != null){
             const userOpenSeeks = [];
             const otherOpenSeeks = [];
-            currentOpenGames.data.map((item, index)=> item.playerOne == user.uid || item.playerTwo == user.uid ? userOpenSeeks.push(item) : otherOpenSeeks.push(item));
+            currentOpenGames.data.map((item, index)=> item.playerOne === user.uid || item.playerTwo === user.uid ? userOpenSeeks.push(item) : otherOpenSeeks.push(item));
             setUserOpenGames(userOpenSeeks);
             setOtherOpenGames(otherOpenSeeks);
-        }
-    }
-
-    const retrieveGames = async()=>{
-        const currentGames = await apiCalls.getGames(user.uid);
-    //    console.log(currentGames);
-        if(currentGames.data){
-            let currToSort = currentGames.data.sort((a,b)=> a.history.length - b.history.length);
-            // currToSort.reverse()
-        setAllGames(currToSort);
         }
     }
     const retrievePreviousGames = async()=>{
@@ -115,12 +101,12 @@ const toggleModalDisplay = (show = false)=>{
     const retrieveCurrentGames = async()=>{
         
         const gamesInProgress = await apiCalls.getGamesInProgress(user.uid);
-   //     console.log(gamesInProgress.data);
         if(gamesInProgress.data)setUserGamesInProgress(gamesInProgress.data.sort((a,b)=>a.history.length-b.history.length).reverse());
     }
+
     const removeGame = async(id)=>{
         let res = await apiCalls.deleteGame(id);
-        if(res.status =='200')setGameAdded(gameAdded +1);  
+        if(res.status ==='200')setGameAdded(gameAdded +1);  
     }
     const joinGame = async (game, displayName)=>{
         if(game.playerOne == null){
@@ -134,7 +120,7 @@ const toggleModalDisplay = (show = false)=>{
         let join = await apiCalls.updateGame(game);
         if(join.status === 200){
             setGameAdded(gameAdded + 1);
-            setBannerMessage(`Succesfully joined game against ${game.playerOneDisplayName != displayName ? game.playerOneDisplayName : game.playerTwoDisplayName}`);
+            setBannerMessage(`Succesfully joined game against ${game.playerOneDisplayName !== displayName ? game.playerOneDisplayName : game.playerTwoDisplayName}`);
            
             setToggleModal("show"); 
             return 'success';
