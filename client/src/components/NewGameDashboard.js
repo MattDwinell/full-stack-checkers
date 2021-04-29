@@ -8,7 +8,6 @@ const NewGameDashboard = ({display, makeNewGame, hideShowForm}) => {
             alert('please input a display name for this game');
         }else{
             let createdGame = await makeNewGame(playerChoice, alias);
-            // console.log(createdGame);
             if(createdGame){
                 hideShowForm('popup');
             }

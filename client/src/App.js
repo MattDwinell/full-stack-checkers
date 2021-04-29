@@ -1,7 +1,7 @@
 import './App.css';
 import Board from './components/Board'
 import { useState } from 'react'
-import {BrowserRouter as Router, Route} from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import CalculateLegalMoves from './Utils/CalculateLegalMoves';
 import CalculateGameStatus from './Utils/CalculateGameStatus';
@@ -16,7 +16,7 @@ import SignIn from './auth/SignIn';
 import SignUp from './auth/SignUp';
 import PasswordReset from './auth/PasswordReset';
 import MultiplayerPage from './components/MultiplayerPage';
-import {auth} from './auth/firebase';
+import { auth } from './auth/firebase';
 import PlayMultiplayer from './components/PlayMultiplayer';
 
 function App() {
@@ -27,8 +27,9 @@ function App() {
   const [allowedMultiJumps, setAllowedMultiJumps] = useState([]);
   const [gameOver, setGameOver] = useState({ gameOver: false, winner: null });
   const [pieceShape, setPieceShape] = useState('circle');
-  const[boardstyle, setBoardstyle] = useState('brown');
-  const[flipBoard, setFlipBoard] = useState(false);
+  const [boardstyle, setBoardstyle] = useState('brown');
+  const [flipBoard, setFlipBoard] = useState(false);
+
   const attemptMove = (num, origin, playerOnesPiece) => {
     num = parseInt(num, 10);
     origin = parseInt(origin, 10);
@@ -46,22 +47,19 @@ function App() {
       setAllowedMultiJumps([]);
     }
     const newBoard = board.map((item, index) => index === num ? { ...item, hasPiece: true, pieceColor: board[origin].pieceColor, pieceIsKing: (res.isKing) } : index === origin ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : (res.jump === true && index === res.jumpedSquare) ? { ...item, hasPiece: false, pieceColor: null, pieceIsKing: false } : item);
-    setBoard(newBoard);
 
-    setHistory([...history, { board:newBoard, historyIndex: currentHistoryIndex + 1 }]);
+    setBoard(newBoard);
+    setHistory([...history, { board: newBoard, historyIndex: currentHistoryIndex + 1 }]);
     setCurrentHistoryIndex(currentHistoryIndex + 1);
     let gameStatusCheck = CalculateGameStatus(newBoard, !firstPlayersTurn);
-    if (gameStatusCheck.gameOver === true) {
-      setGameOver(gameStatusCheck);
-    }
-
+    if (gameStatusCheck.gameOver === true) setGameOver(gameStatusCheck);
   }
+
   const traverseHistory = (direction) => {
     if (history.length === 1) return;
     if (direction === 'left' && currentHistoryIndex > 0) {
       setBoard(history[currentHistoryIndex - 1].board);
       setCurrentHistoryIndex(currentHistoryIndex - 1);
-
     }
     if (direction === 'present') {
       setCurrentHistoryIndex(history.length - 1);
@@ -71,13 +69,13 @@ function App() {
       setBoard(history[currentHistoryIndex + 1].board);
       setCurrentHistoryIndex(currentHistoryIndex + 1);
     }
-
     if (direction === 'beginning') {
       setBoard(history[0].board);
       setCurrentHistoryIndex(0);
     }
   }
-  const resetGame = ()=>{
+
+  const resetGame = () => {
     setFirstPlayersTurn(true);
     setBoard(originalBoard);
     setHistory([{ board: originalBoard, historyIndex: 0 }]);
@@ -87,57 +85,54 @@ function App() {
     let hideModal = document.getElementsByClassName('end-modal')[0];
     hideModal.style.visibility = 'visible';
   }
-const changeShape = (target)=>{
-  setPieceShape(target);
-}
-const changeBoardStyle = (target)=>{
-  setBoardstyle(target);
-}
-const rotateBoard = ()=>{
-  setFlipBoard(!flipBoard);
-}
-//authentication
-const [user, setUser] = useState(null);
-auth.onAuthStateChanged(async userAuth=>{
-  setUser(userAuth);
-})
-  return ( user == null ?
+  const changeShape = (target) => {
+    setPieceShape(target);
+  }
+  const changeBoardStyle = (target) => {
+    setBoardstyle(target);
+  }
+  const rotateBoard = () => {
+    setFlipBoard(!flipBoard);
+  }
+  //authentication
+  const [user, setUser] = useState(null);
+  auth.onAuthStateChanged(async userAuth => {
+    setUser(userAuth);
+  })
+  return (user == null ?
 
-  <Router>
-    <Route path='/' exact component = {SignIn}/>
-    <Route path='/signUp' component = {SignUp}/>
-    <Route path='/passwordReset' component = {PasswordReset}/>
+    <Router>
+      <Route path='/' exact={true} component={SignIn} />
+      <Route path='/signUp' component={SignUp} />
+      <Route path='/passwordReset' component={PasswordReset} />
 
-  </Router>
+    </Router>
 
-  :
+    :
 
     <Router>
       <div className="App">
-        <TopNav/>
-      <Route path='/' exact={true} render={(props)=>(
-      <>
-           <Board boardState={board} setBoard={attemptMove} styleInfo = {{shape: pieceShape, boardStyle: boardstyle, flipboard: flipBoard}} />
-      <Dashboard styleInfo = {{shape: pieceShape, boardStyle: boardstyle, flipboard: flipBoard}}  resetGame = {resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} rotateBoard = {rotateBoard} />
-      <GameEndModal resetGame = {resetGame} gameOver={gameOver} />
-      
-      </>)}/>
-    <Route path ='/about' component = {About}/> 
-    <Route path='/preferences' render = {(props)=>(
-      <Preferences changeBoardstyle = {changeBoardStyle} changeShape = {changeShape} style = {{shape: pieceShape, boardStyle: boardstyle}}/>
-    )}/>
-    <Route path='/rules' component = {Rules}></Route>
-    <Route path = '/multiplayer' render = {(props)=>(
-      <MultiplayerPage user = {user}/>
-    )}/>
-        <Route path = '/play-multiplayer/:id' render = {(props)=>(
-      <PlayMultiplayer style ={{shape: pieceShape, boardStyle: boardstyle}} user={user}/>
-    )}/>
-
-      <Footer />
-    </div>
+        <TopNav />
+        <Route path='/' exact={true} render={(props) => (
+          <>
+            <Board boardState={board} setBoard={attemptMove} styleInfo={{ shape: pieceShape, boardStyle: boardstyle, flipboard: flipBoard }} />
+            <Dashboard styleInfo={{ shape: pieceShape, boardStyle: boardstyle, flipboard: flipBoard }} resetGame={resetGame} player={firstPlayersTurn} gameOver={gameOver.gameOver} viewHistory={traverseHistory} rotateBoard={rotateBoard} />
+            <GameEndModal resetGame={resetGame} gameOver={gameOver} />
+          </>)} />
+        <Route path='/about' component={About} />
+        <Route path='/preferences' render={(props) => (
+          <Preferences changeBoardstyle={changeBoardStyle} changeShape={changeShape} style={{ shape: pieceShape, boardStyle: boardstyle }} />
+        )} />
+        <Route path='/rules' component={Rules}></Route>
+        <Route path='/multiplayer' render={(props) => (
+          <MultiplayerPage user={user} />
+        )} />
+        <Route path='/play-multiplayer/:id' render={(props) => (
+          <PlayMultiplayer style={{ shape: pieceShape, boardStyle: boardstyle }} user={user} />
+        )} />
+        <Footer />
+      </div>
     </Router>
-
   );
 }
 

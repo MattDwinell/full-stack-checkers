@@ -1,6 +1,6 @@
-const PlayAgain = ({gameOver, resetGame}) => {
+const PlayAgain = ({ gameOver, resetGame }) => {
     return (
-        <button onClick = {resetGame} className = 'play-again' >
+        <button onClick={resetGame} className='play-again' >
             {gameOver ? `Play Again` : `Restart Game`}
         </button>
     )

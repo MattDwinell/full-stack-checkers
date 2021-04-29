@@ -1,13 +1,5 @@
 import axios from 'axios';
 const apiCalls ={
-    getGames: function(uid){
-        return axios({
-            url:'/api/games',
-            headers: {'Access-Control-Allow-Origin' : '*',
-            'Access-Control-Allow-Methods' : 'GET,PUT,POST,DELETE,OPTIONS'},
-            method: 'get'
-        });
-    },
     getGameById: function(gameId){
         return axios({
             url:'/api/games/find-one/'+ gameId,
