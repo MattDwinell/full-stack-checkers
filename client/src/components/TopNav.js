@@ -12,7 +12,7 @@ const TopNav = () => {
 <Navbar  bg="light" expand="sm" className = 'style-nav-bar' >
 
   <Navbar.Brand> 
-      <Link exact to='/'><div className = 'logo-holder'> <img src = {logo} alt='checkers logo'/></div></Link>
+      <Link exact={true} to='/'><div className = 'logo-holder'> <img src = {logo} alt='checkers logo'/></div></Link>
        </Navbar.Brand>
 
   <Navbar.Toggle aria-controls="basic-navbar-nav" />
